@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Blog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .post-list li {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .post-list li:last-child {
+            border-bottom: none;
+        }
+
+        .post-list li a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        .post-view {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <input type="text" id="searchBar" placeholder="Search...">
+    </div>
+
+    <div class="container">
+        <h1>Tech Blog</h1>
+        <ul class="post-list" id="postList">
+            <!-- Blog posts will be loaded here -->
+        </ul>
+
+        <div class="post-view" id="postView">
+            <!-- Full blog post content will be loaded here -->
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination links will be added here -->
+        </div>
+    </div>
+
+    <script>
+        function loadPosts() {
+            const postList = document.getElementById('postList');
+            const postView = document.getElementById('postView');
+            const paginationDiv = document.getElementById('pagination');
+
+            const postsPerPage = 2;
+            let currentPage = 1;
+            let files = [];
+
+            // Function to fetch and display posts
+            async function fetchPosts() {
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', 'http://bitbase.bg/posts/', true);
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            const postFiles = xhr.responseText;
+                            const parser = new DOMParser();
+                            const htmlDoc = parser.parseFromString(postFiles, 'text/html');
+                            const links = htmlDoc.querySelectorAll('a');
+                            files = Array.from(links)
+                                .filter(link => link.href.endsWith('.html'))
+                                .map(link => ({
+                                    href: link.href,
+                                    textContent: link.textContent
+                                }));
+
+                            // Sort files by date (assuming filename format is YYYY-MM-DD-title.html)
+                            files.sort((a, b) => {
+                                const dateA = a.href.split('/').pop().substring(0, 10);
+                                const dateB = b.href.split('/').pop().substring(0, 10);
+                                return new Date(dateB) - new Date(dateA);
+                            });
+
+                            displayPosts(currentPage);
+                            displayPagination();
+                        } else {
+                            console.error('Could not fetch posts:', xhr.status);
+                            postList.innerHTML = '<p>Could not load blog posts.</p>';
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.error('Could not fetch posts:', xhr.status);
+                        postList.innerHTML = '<p>Could not load blog posts.</p>';
+                    };
+                    xhr.send();
+                } catch (error) {
+                    console.error('Could not fetch posts:', error);
+                    postList.innerHTML = '<p>Could not load blog posts.</p>';
+                }
+            }
+
+            // Function to load and display the full content of a post
+            async function loadPostContent(filePath) {
+                try {
+                    const response = await fetch('http://bitbase.bg/posts/' + filePath);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const postContent = await response.text();
+                    postView.innerHTML = postContent;
+                } catch (error) {
+                    console.error('Could not load post content:', error);
+                    postView.innerHTML = '<p>Could not load the blog post content.</p>';
+                }
+            }
+
+            function displayPosts(page) {
+                postList.innerHTML = '';
+                const startIndex = (page - 1) * postsPerPage;
+                const endIndex = startIndex + postsPerPage;
+                const paginatedPosts = files.slice(startIndex, endIndex);
+
+                paginatedPosts.forEach(async (file) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = file.textContent.replace('.html', '').substring(11).replace(/-/g, ' '); // Display title
+                    link.addEventListener('click', () => loadPostContent(file.textContent));
+                    listItem.appendChild(link);
+                    postList.appendChild(listItem);
+                });
+            }
+
+            function displayPagination() {
+                paginationDiv.innerHTML = ''; // Clear existing pagination
+
+                const numPages = Math.ceil(files.length / postsPerPage);
+                let startPage = currentPage - 2;
+                let endPage = currentPage + 2;
+
+                if (startPage < 1) {
+                    startPage = 1;
+                    endPage = Math.min(numPages, 5);
+                }
+
+                if (endPage > numPages) {
+                    endPage = numPages;
+                    startPage = Math.max(1, numPages - 4);
+                }
+
+                if (numPages <= 5) {
+                    startPage = 1;
+                    endPage = numPages;
+                }
+
+                // Add "first" button
+                const firstLink = document.createElement('a');
+                firstLink.href = '#';
+                firstLink.textContent = '<';
+                firstLink.addEventListener('click', () => {
+                    currentPage = 1;
+                    displayPosts(currentPage);
+                    displayPagination();
+                });
+                paginationDiv.appendChild(firstLink);
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.href = '#';
+                    pageLink.textContent = i;
+                    if (i === currentPage) {
+                        pageLink.classList.add('active');
+                    }
+                    pageLink.addEventListener('click', () => {
+                        currentPage = i;
+                        displayPosts(currentPage);
+                        displayPagination();
+                    });
+                    paginationDiv.appendChild(pageLink);
+                }
+
+                // Add "last" button
+                const lastLink = document.createElement('a');
+                lastLink.href = '#';
+                lastLink.textContent = '>';
+                lastLink.addEventListener('click', () => {
+                    currentPage = numPages;
+                    displayPosts(currentPage);
+                    displayPagination();
+                });
+                paginationDiv.appendChild(lastLink);
+            }
+
+            // Initial load of posts
+            fetchPosts();
+        }
+
+        // Call loadPosts when the page loads
+        window.onload = loadPosts;
+
+        const searchBar = document.getElementById('searchBar');
+
+        searchBar.addEventListener('keyup', (e) => {
+            const searchString = e.target.value.toLowerCase();
+
+            const filteredPosts = files.filter(post => {
+                return (
+                    post.textContent.toLowerCase().includes(searchString)
+                );
+            });
+            displayPosts(1, filteredPosts);
+            displayPagination(filteredPosts, postsPerPage, currentPage);
+        });
+
+        function displayPosts(page = 1, filteredPosts = files) {
+            postList.innerHTML = '';
+            const startIndex = (page - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+            paginatedPosts.forEach(async (file) => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = file.textContent.replace('.html', '').substring(11).replace(/-/g, ' '); // Display title
+                link.addEventListener('click', () => loadPostContent(file.href));
+                listItem.appendChild(link);
+                postList.appendChild(listItem);
+            });
+        }
+
+        function displayPagination(filteredPosts, postsPerPage, currentPage) {
+            paginationDiv.innerHTML = ''; // Clear existing pagination
+
+            const numPages = Math.ceil(filteredPosts.length / postsPerPage);
+            let startPage = currentPage - 2;
+            let endPage = currentPage + 2;
+
+            if (startPage < 1) {
+                startPage = 1;
+                endPage = Math.min(numPages, 5);
+            }
+
+            if (endPage > numPages) {
+                endPage = numPages;
+                startPage = Math.max(1, numPages - 4);
+            }
+
+            if (numPages <= 5) {
+                startPage = 1;
+                endPage = numPages;
+            }
+
+            // Add "first" button
+            const firstLink = document.createElement('a');
+            firstLink.href = '#';
+            firstLink.textContent = '<';
+            firstLink.addEventListener('click', () => {
+                currentPage = 1;
+                displayPosts(currentPage, filteredPosts);
+                displayPagination(filteredPosts, postsPerPage, currentPage);
+            });
+            paginationDiv.appendChild(firstLink);
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.textContent = i;
+                if (i === currentPage) {
+                    pageLink.classList.add('active');
+                }
+                pageLink.addEventListener('click', () => {
+                    currentPage = i;
+                    displayPosts(currentPage, filteredPosts);
+                    displayPagination(filteredPosts, postsPerPage, currentPage);
+                });
+                paginationDiv.appendChild(pageLink);
+            }
+
+            // Add "last" button
+            const lastLink = document.createElement('a');
+            lastLink.href = '#';
+            lastLink.textContent = '>';
+            lastLink.addEventListener('click', () => {
+                currentPage = numPages;
+                displayPosts(currentPage, filteredPosts);
+                displayPagination(filteredPosts, postsPerPage, currentPage);
+            });
+            paginationDiv.appendChild(lastLink);
+        }
+    </script>
+</body>
+</html>
