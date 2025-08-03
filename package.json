@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
+    "prebuild": "node ./scripts/generate-sitemap.mjs",
     "build": "next build",
+    "postbuild": "node ./scripts/generate-sitemap.mjs",
     "start": "next start -p 3000",
     "lint": "next lint"
   },
@@ -21,4 +23,5 @@
     "eslint-config-next": "14.2.5",
     "typescript": "^5.4.5"
   }
+  
 }
