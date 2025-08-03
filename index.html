@@ -85,7 +85,7 @@
     <div class="navbar">
         <a href="index.html">Home</a>
         <a href="#">About</a>
-        <input type="text" id="searchBar" placeholder="Search...">
+        <a href="#">All Posts</a>
     </div>
 
     <div class="container">
@@ -117,7 +117,7 @@
             async function fetchPosts() {
                 try {
                     const xhr = new XMLHttpRequest();
-                    xhr.open('GET', 'http://bitbase.bg/posts/', true);
+                    xhr.open('GET', 'http://localhost:8000/posts/', true);
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 300) {
                             const postFiles = xhr.responseText;
@@ -159,7 +159,7 @@
             // Function to load and display the full content of a post
             async function loadPostContent(filePath) {
                 try {
-                    const response = await fetch('http://bitbase.bg/posts/' + filePath);
+                    const response = await fetch('http://localhost:8000/posts/' + filePath);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -254,97 +254,6 @@
 
         // Call loadPosts when the page loads
         window.onload = loadPosts;
-
-        const searchBar = document.getElementById('searchBar');
-
-        searchBar.addEventListener('keyup', (e) => {
-            const searchString = e.target.value.toLowerCase();
-
-            const filteredPosts = files.filter(post => {
-                return (
-                    post.textContent.toLowerCase().includes(searchString)
-                );
-            });
-            displayPosts(1, filteredPosts);
-            displayPagination(filteredPosts, postsPerPage, currentPage);
-        });
-
-        function displayPosts(page = 1, filteredPosts = files) {
-            postList.innerHTML = '';
-            const startIndex = (page - 1) * postsPerPage;
-            const endIndex = startIndex + postsPerPage;
-            const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
-
-            paginatedPosts.forEach(async (file) => {
-                const listItem = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = '#';
-                link.textContent = file.textContent.replace('.html', '').substring(11).replace(/-/g, ' '); // Display title
-                link.addEventListener('click', () => loadPostContent(file.href));
-                listItem.appendChild(link);
-                postList.appendChild(listItem);
-            });
-        }
-
-        function displayPagination(filteredPosts, postsPerPage, currentPage) {
-            paginationDiv.innerHTML = ''; // Clear existing pagination
-
-            const numPages = Math.ceil(filteredPosts.length / postsPerPage);
-            let startPage = currentPage - 2;
-            let endPage = currentPage + 2;
-
-            if (startPage < 1) {
-                startPage = 1;
-                endPage = Math.min(numPages, 5);
-            }
-
-            if (endPage > numPages) {
-                endPage = numPages;
-                startPage = Math.max(1, numPages - 4);
-            }
-
-            if (numPages <= 5) {
-                startPage = 1;
-                endPage = numPages;
-            }
-
-            // Add "first" button
-            const firstLink = document.createElement('a');
-            firstLink.href = '#';
-            firstLink.textContent = '<';
-            firstLink.addEventListener('click', () => {
-                currentPage = 1;
-                displayPosts(currentPage, filteredPosts);
-                displayPagination(filteredPosts, postsPerPage, currentPage);
-            });
-            paginationDiv.appendChild(firstLink);
-
-            for (let i = startPage; i <= endPage; i++) {
-                const pageLink = document.createElement('a');
-                pageLink.href = '#';
-                pageLink.textContent = i;
-                if (i === currentPage) {
-                    pageLink.classList.add('active');
-                }
-                pageLink.addEventListener('click', () => {
-                    currentPage = i;
-                    displayPosts(currentPage, filteredPosts);
-                    displayPagination(filteredPosts, postsPerPage, currentPage);
-                });
-                paginationDiv.appendChild(pageLink);
-            }
-
-            // Add "last" button
-            const lastLink = document.createElement('a');
-            lastLink.href = '#';
-            lastLink.textContent = '>';
-            lastLink.addEventListener('click', () => {
-                currentPage = numPages;
-                displayPosts(currentPage, filteredPosts);
-                displayPagination(filteredPosts, postsPerPage, currentPage);
-            });
-            paginationDiv.appendChild(lastLink);
-        }
     </script>
 </body>
 </html>
