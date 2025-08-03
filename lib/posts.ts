@@ -5,6 +5,7 @@ export type PostMeta = {
   slug: string;
   date: string;
   title: string;
+  excerpt?: string;
 };
 
 export type Post = PostMeta & {
@@ -30,6 +31,16 @@ function extractTitleFromHtml(html: string): string {
   return "Untitled";
 }
 
+function extractExcerptFromHtml(html: string, maxLen = 180): string {
+  // Prefer first paragraph after the first h1, otherwise the very first paragraph
+  let match =
+    html.match(/<h1[^>]*>[\s\S]*?<\/h1>[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/i) ||
+    html.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+  const text = stripTags((match && match[1]) || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  return text.length > maxLen ? text.slice(0, maxLen - 1).trimEnd() + "…" : text;
+}
+
 function stripTags(s: string): string {
   return s.replace(/<[^>]*>/g, "");
 }
@@ -44,7 +55,8 @@ export function getAllPostsMeta(): PostMeta[] {
     const dateMatch = slug.match(/^(\d{4}-\d{2}-\d{2})/);
     const date = dateMatch ? dateMatch[1] : "";
     const title = extractTitleFromHtml(html);
-    return { slug, date, title };
+    const excerpt = extractExcerptFromHtml(html);
+    return { slug, date, title, excerpt };
   });
   // Sort by date desc if available, otherwise by filename desc
   return metas.sort((a: PostMeta, b: PostMeta) =>
@@ -61,7 +73,8 @@ export function getPostBySlug(slug: string): Post | null {
   if (!fs.existsSync(filePath)) return null;
   const html = fs.readFileSync(filePath, "utf8");
   const title = extractTitleFromHtml(html);
+  const excerpt = extractExcerptFromHtml(html);
   const dateMatch = slug.match(/^(\d{4}-\d{2}-\d{2})/);
   const date = dateMatch ? dateMatch[1] : "";
-  return { slug, date, title, html };
+  return { slug, date, title, excerpt, html };
 }

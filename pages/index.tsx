@@ -36,6 +36,9 @@ export default function Home({ posts, page, totalPages }: Props) {
                 <Link href={`/posts/${post.slug}`}>{post.title}</Link>
               </h2>
               {post.date && <time dateTime={post.date}>{post.date}</time>}
+              {post.excerpt && (
+                <p style={{ marginTop: 6, color: "var(--muted)" }}>{post.excerpt}</p>
+              )}
             </article>
           ))}
         </section>
