@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { getAllPostsMeta, type PostMeta } from "../lib/posts";
+import type { GetStaticPaths, GetStaticProps } from "next";
+import { getAllPostsMeta, type PostMeta } from "../../lib/posts";
 
 const PAGE_SIZE = 1;
 
@@ -11,12 +11,12 @@ type Props = {
   totalPages: number;
 };
 
-export default function Home({ posts, page, totalPages }: Props) {
+export default function PagedHome({ posts, page, totalPages }: Props) {
   return (
     <>
       <Head>
-        <title>Tech Blog</title>
-        <meta name="description" content="Tech Blog powered by Next.js" />
+        <title>Tech Blog - Page {page}</title>
+        <meta name="description" content={`Tech Blog page ${page}`} />
       </Head>
       <main className="container">
         <header className="header">
@@ -45,7 +45,7 @@ export default function Home({ posts, page, totalPages }: Props) {
         <nav aria-label="Pagination" className="pagination" style={{ marginTop: 24, display: "flex", gap: 8, justifyContent: "center" }}>
           {/* '<' goes to first page */}
           <Link
-            href={page === 1 ? "/" : "/"}
+            href="/"
             aria-disabled={page === 1}
             style={{
               padding: "6px 10px",
@@ -101,10 +101,26 @@ export default function Home({ posts, page, totalPages }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const total = getAllPostsMeta().length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+  return {
+    paths: Array.from({ length: totalPages - 1 }).map((_, i) => ({
+      params: { n: String(i + 2) } // pages from 2..totalPages (page 1 is /)
+    })),
+    fallback: false
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+  const n = Number(ctx.params?.n);
   const all = getAllPostsMeta();
-  const page = 1;
   const totalPages = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
+
+  // Guard invalid numbers just in case
+  const page = Number.isFinite(n) && n >= 1 && n <= totalPages ? n : 1;
+
   const posts = all.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   return { props: { posts, page, totalPages } };
 };
