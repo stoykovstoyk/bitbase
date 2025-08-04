@@ -43,7 +43,7 @@ export default function Home({ posts, page, totalPages }: Props) {
           ))}
         </section>
 
-        <footer className="footer">© {new Date().getFullYear()} Tech Blog</footer>
+        <footer className="footer">© {new Date().getFullYear()} Cybersecurity News</footer>
 
         <nav aria-label="Pagination" className="pagination" style={{ marginTop: 24, display: "flex", gap: 8, justifyContent: "center" }}>
           {/* '<' goes to first page */}

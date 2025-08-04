@@ -15,16 +15,16 @@ export default function PagedHome({ posts, page, totalPages }: Props) {
   return (
     <>
       <Head>
-        <title>Tech Blog - Page {page}</title>
-        <meta name="description" content={`Tech Blog page ${page}`} />
+        <title>BitBase {page}</title>
+        <meta name="description" content={`Bitbase - Stay Secure. Stay Informed. ${page}`} />
       </Head>
       <main className="container">
         <header className="header">
           <div className="brand">
-            <img src="/favicon.ico" alt="" width={20} height={20} />
+            <img src="/logo.png" alt="BitBase logo" width={48} height={48} />
             <div>
-              <div className="brand-title">Tech Blog</div>
-              <div className="brand-sub">Next.js static site</div>
+              <div className="brand-title">BitBase</div>
+              <div className="brand-sub">Stay Secure. Stay Informed.</div>
             </div>
           </div>
         </header>
@@ -43,7 +43,7 @@ export default function PagedHome({ posts, page, totalPages }: Props) {
           ))}
         </section>
 
-        <footer className="footer">© {new Date().getFullYear()} Tech Blog</footer>
+        <footer className="footer">© {new Date().getFullYear()} Cybersecurity News</footer>
 
         <nav aria-label="Pagination" className="pagination" style={{ marginTop: 24, display: "flex", gap: 8, justifyContent: "center" }}>
           {/* '<' goes to first page */}

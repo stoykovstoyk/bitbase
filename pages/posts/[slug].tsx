@@ -13,16 +13,16 @@ export default function PostPage({ post, prev, next }: Props) {
   return (
     <>
       <Head>
-        <title>{post.title} | Tech Blog</title>
+        <title>{post.title} | BitBase </title>
         <meta name="description" content={post.title} />
       </Head>
       <main className="container">
         <header className="header">
           <div className="brand">
-            <img src="/favicon.ico" alt="" width={20} height={20} />
+            <img src="/logo.png" alt="BitBase logo" width={48} height={48} />
             <div>
-              <div className="brand-title">Tech Blog</div>
-              <div className="brand-sub">Next.js static site</div>
+              <div className="brand-title">BitBase</div>
+              <div className="brand-sub">Stay Secure. Stay Informed.</div>
             </div>
           </div>
         </header>
@@ -132,7 +132,7 @@ export default function PostPage({ post, prev, next }: Props) {
           </Link>
         </div>
 
-        <footer className="footer">© {new Date().getFullYear()} Tech Blog</footer>
+        <footer className="footer">© {new Date().getFullYear()} Cybersecurity News</footer>
       </main>
     </>
   );
