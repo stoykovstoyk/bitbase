@@ -16,9 +16,14 @@ const SITE_URL =
 // 2) Collect posts from posts/ (HTML files)
 function readPostsMeta() {
   if (!fs.existsSync(POSTS_DIR)) return [];
-  const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith(".html"));
+  const files = fs
+    .readdirSync(POSTS_DIR)
+    .filter((f) => f.endsWith(".html"))
+    // Normalize filenames to avoid accidental leading/trailing spaces in slugs
+    .map((f) => f.trim());
   const metas = files.map((file) => {
-    const slug = file.replace(/\.html?$/i, "");
+    // Remove extension and trim any stray whitespace from filename-derived slug
+    const slug = file.replace(/\.html?$/i, "").trim();
     const m = slug.match(/^(\d{4}-\d{2}-\d{2})/);
     const date = m ? m[1] : "";
     return { slug, date };
