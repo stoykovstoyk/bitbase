@@ -16,14 +16,9 @@ const SITE_URL =
 // 2) Collect posts from posts/ (HTML files)
 function readPostsMeta() {
   if (!fs.existsSync(POSTS_DIR)) return [];
-  const files = fs
-    .readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith(".html"))
-    // Normalize filenames to avoid accidental leading/trailing spaces in slugs
-    .map((f) => f.trim());
+  const files = fs.readdirSync(POSTS_DIR).filter((f) => f.endsWith(".html"));
   const metas = files.map((file) => {
-    // Remove extension and trim any stray whitespace from filename-derived slug
-    const slug = file.replace(/\.html?$/i, "").trim();
+    const slug = file.replace(/\.html?$/i, "");
     const m = slug.match(/^(\d{4}-\d{2}-\d{2})/);
     const date = m ? m[1] : "";
     return { slug, date };
@@ -64,7 +59,7 @@ function toXml(urls) {
       const changefreq = u.changefreq ? `\n    <changefreq>${u.changefreq}</changefreq>` : "";
       const priority = u.priority ? `\n    <priority>${u.priority}</priority>` : "";
       return `  <url>
-    <loc>${u.loc}.html</loc>${lastmod}${changefreq}${priority}
+    <loc>${u.loc}</loc>${lastmod}${changefreq}${priority}
   </url>`;
     })
     .join("\n");
