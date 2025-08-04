@@ -64,7 +64,7 @@ function toXml(urls) {
       const changefreq = u.changefreq ? `\n    <changefreq>${u.changefreq}</changefreq>` : "";
       const priority = u.priority ? `\n    <priority>${u.priority}</priority>` : "";
       return `  <url>
-    <loc>${u.loc}</loc>${lastmod}${changefreq}${priority}
+    <loc>${u.loc}.html</loc>${lastmod}${changefreq}${priority}
   </url>`;
     })
     .join("\n");
