@@ -24,13 +24,5 @@
     <p>For incident response:<br/>- Scope: Query EDR for WebClient service usage and process trees tied to Office/email clients leading to LOLBins. Collect SRUM/ETW/EDR logs for DAV sessions and shell link executions.<br/>- Contain: Block attacker DAV infrastructure at perimeter, rotate credentials, and review persistence points (Run keys, Scheduled Tasks, WMI).<br/>- Forensics: Preserve $MFT, Prefetch, ShimCache, AmCache, and RAPID7/OSQuery-style artifacts for remote path executions; hash and analyze any retrieved LNK/HTA/DLLs.</p>
     <h2>Conclusion</h2>
     <p>Stealth Falcon’s campaign underscores how protocol and handler edge-cases can rival classic memory corruption in impact. As vendors harden macros and scripting defaults, expect more abuse of WebDAV, SMB, and URI normalization ambiguities. Prioritize patching, reduce attack surface by disabling unneeded services like WebClient, and tighten application control. Most importantly, tune detections for remote path execution and suspicious child-process chains from office productivity apps—these are the canaries for the next wave of handler exploits.</p>
-    <h2>References</h2>
-    <ul>
-      <li><a href="https://learn.microsoft.com/windows/win32/webdav/webdav-portal">Microsoft Docs: WebDAV on Windows</a></li>
-      <li><a href="https://attack.mitre.org/techniques/T1105/">MITRE ATT&amp;CK T1105: Ingress Tool Transfer</a></li>
-      <li><a href="https://attack.mitre.org/techniques/T1204/">MITRE ATT&amp;CK T1204: User Execution</a></li>
-      <li><a href="https://www.microsoft.com/en-us/security/blog/2023/06/16/hardening-windows-against-lolbins-and-lolbas/">Microsoft Security Blog: Hardening Windows against LOLBins</a></li>
-      <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog">CISA Known Exploited Vulnerabilities Catalog</a></li>
-    </ul>
 </body>
 </html>

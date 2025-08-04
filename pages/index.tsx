@@ -15,16 +15,16 @@ export default function Home({ posts, page, totalPages }: Props) {
   return (
     <>
       <Head>
-        <title>Tech Blog</title>
-        <meta name="description" content="Tech Blog powered by Next.js" />
+        <title>BitBase</title>
+        <meta name="description" content="Bitbase - Stay Secure. Stay Informed." />
       </Head>
       <main className="container">
         <header className="header">
           <div className="brand">
             <img src="/favicon.ico" alt="" width={20} height={20} />
             <div>
-              <div className="brand-title">Tech Blog</div>
-              <div className="brand-sub">Next.js static site</div>
+              <div className="brand-title">BitBase</div>
+              <div className="brand-sub">Stay Secure. Stay Informed.</div>
             </div>
           </div>
         </header>
