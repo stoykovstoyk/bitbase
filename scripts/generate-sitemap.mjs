@@ -11,7 +11,7 @@ const PUBLIC_DIR = path.join(ROOT, "public");
 
 // 1) Determine base URL
 const SITE_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
+  (process.env.NEXT_PUBLIC_SITE_URL || "https://bitbase.bg").replace(/\/+$/, "");
 
 // 2) Collect posts from posts/ (HTML files)
 function readPostsMeta() {

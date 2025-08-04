@@ -20,8 +20,8 @@ export default function Home({ posts, page, totalPages }: Props) {
       </Head>
       <main className="container">
         <header className="header">
-          <div className="brand">
-            <img src="/favicon.ico" alt="" width={20} height={20} />
+          <div className="brand" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <img src="/logo.png" alt="BitBase logo" width={48} height={48} />
             <div>
               <div className="brand-title">BitBase</div>
               <div className="brand-sub">Stay Secure. Stay Informed.</div>

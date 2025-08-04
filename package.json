@@ -1,5 +1,5 @@
 {
-  "name": "tech-blog-website-vibecoded",
+  "name": "bitbase",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,10 @@
     "build": "next build",
     "postbuild": "node ./scripts/generate-sitemap.mjs",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prestart": "node ./scripts/generate-sitemap.mjs",
+    "predev": "node ./scripts/generate-sitemap.mjs",
+    "prepare": "node ./scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "next": "14.2.5",
