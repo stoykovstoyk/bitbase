@@ -50,7 +50,7 @@ export default function PostPage({ post, prev, next }: Props) {
           </Link>
           <div style={{ flex: 1 }} />
           <Link
-            href="/page/2"
+            href="/"
             style={{
               padding: "6px 10px",
               border: "1px solid rgba(255,255,255,0.2)",
