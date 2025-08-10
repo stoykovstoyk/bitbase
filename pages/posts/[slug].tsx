@@ -9,11 +9,16 @@ type Props = {
   next?: { slug: string; title: string } | null;
 };
 
+import { useEffect } from 'react';
+
 export default function PostPage({ post, prev, next }: Props) {
+  useEffect(() => {
+    document.title = `${post.title} | BitBase`;
+  }, [post.title]);
+
   return (
     <>
       <Head>
-        <title>{post.title} | BitBase </title>
         <meta name="description" content={post.title} />
       </Head>
       <main className="container">
