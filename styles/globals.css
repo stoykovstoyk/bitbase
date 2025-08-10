@@ -51,6 +51,15 @@ a:hover {
   margin-bottom: 24px;
 }
 
+.header nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header nav a {
+  font-weight: 500;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -102,6 +111,8 @@ a:hover {
 .post-content h1, .post-content h2, .post-content h3 {
   margin-top: 1.4em;
 }
+
+
 .post-content p {
   line-height: 1.65;
 }
@@ -112,4 +123,57 @@ a:hover {
   border-top: 1px solid rgba(255,255,255,0.08);
   color: var(--muted);
   font-size: 13px;
+}
+
+.sidebar {
+  padding: 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 8px;
+}
+
+.post-content form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.post-content label {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.post-content input,
+.post-content textarea {
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  background-color: rgba(255,255,255,0.05);
+  color: var(--text);
+}
+
+.post-content button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--link);
+  color: var(--text);
+  cursor: pointer;
 }

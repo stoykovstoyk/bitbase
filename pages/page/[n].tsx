@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import { getAllPostsMeta, type PostMeta } from "../../lib/posts";
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 5;
 
 type Props = {
   posts: PostMeta[];

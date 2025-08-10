@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getAllPostsMeta, type PostMeta } from "../lib/posts";
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 5;
 
 type Props = {
   posts: PostMeta[];
@@ -27,7 +27,12 @@ export default function Home({ posts, page, totalPages }: Props) {
               <div className="brand-sub">Stay Secure. Stay Informed.</div>
             </div>
           </div>
+          <nav>
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+          </nav>
         </header>
+
 
         <section className="post-list">
           {posts.map((post) => (
