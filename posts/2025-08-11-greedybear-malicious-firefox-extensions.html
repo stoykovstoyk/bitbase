@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html> 
    <head> 
-      <title>GreedyBear: How 150+ Malicious Firefox Wallet Extensions Stole $1M in Crypto</title>   
+      <title>GreedyBear - How 150+ Malicious Firefox Wallet Extensions Stole $1M in Crypto</title>   
       <meta name="date" content="2025-08-11">
    </head>
    <body>
-      <h1>GreedyBear: How 150+ Malicious Firefox Wallet Extensions Stole $1M in Crypto</h1>
       <p>In early August 2025 researchers uncovered a large-scale campaign — dubbed <strong>GreedyBear</strong> — that weaponized over 150 Firefox browser extensions to impersonate popular crypto wallets. The campaign used a method called <em>Extension Hollowing</em> to build apparent trust before flipping extensions into credential-stealing malware, resulting in more than $1 million in stolen digital assets. This post dissects the technique, the attack chain, the broader implications for browser extension trust models, and practical defenses for security engineers and analysts.</p>
       <h2>Background</h2>
       <p>Researchers at Koi Security (reporting by Tuval Admoni) and independent analysts (including Lukasz Olejnik) documented the campaign in a disclosure published on August 8, 2025. The threat actors created publisher accounts in the Firefox add-on marketplace and uploaded hundreds of benign-looking extensions with minimal or no functionality. Over time they accumulated fake positive reviews and built reputational credibility. At scale — more than 150 extensions — the adversary later updated the extensions to include malicious code that impersonated widely used wallets such as MetaMask, TronLink, Exodus and Rabby, intercepting wallet credentials and siphoning funds to attacker-controlled addresses. The reported theft exceeds $1 million in crypto assets.</p>
