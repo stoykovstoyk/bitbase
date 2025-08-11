@@ -5,7 +5,6 @@
     <meta name="date" content="2025-08-04">
 </head>
 <body>
-    <h1>Stealth Falcon’s WebDAV Zero‑Day: How a Windows URI Handler Bug Fueled Targeted RCE Since March</h1>
     <p>A state-aligned threat group known as Stealth Falcon quietly weaponized a Windows WebDAV zero‑day starting in March, chaining URI handler mis-parsing with network share semantics to execute code on fully patched systems. This post unpacks what happened, how the exploit works, who’s at risk, and how to detect and mitigate similar tradecraft in your environment.</p>
     <h2>Background</h2>
     <p>Stealth Falcon, a long-tracked APT associated with surveillance operations against journalists, dissidents, and government entities in the Middle East and beyond, has a history of leveraging Windows ecosystem edge-cases and living-off-the-land techniques. In this campaign, the group exploited a zero‑day involving Windows’ handling of WebDAV paths via specially crafted links delivered through spearphishing emails and chat apps. The activity began in March and focused on government, defense, and policy organizations, with lures themed around diplomatic cables and procurement documents. Victims reported compromise after opening seemingly benign Office documents or clicking links that invoked a WebDAV share hosted by attacker infrastructure.</p>
