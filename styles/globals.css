@@ -117,6 +117,21 @@ a:hover {
   line-height: 1.65;
 }
 
+.post-content pre {
+  white-space: pre-wrap; 
+  word-wrap: break-word; 
+  overflow-x: auto;      
+  background-color: rgba(255,255,255,0.04);
+  padding: 12px;
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 100%;       
+  box-sizing: border-box;
+}
+
+
 .footer {
   margin-top: 40px;
   padding-top: 16px;
