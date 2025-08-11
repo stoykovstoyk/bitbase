@@ -21,7 +21,7 @@ export default function PagedHome({ posts, page, totalPages }: Props) {
       <main className="container">
         <header className="header">
           <div className="brand">
-            <img src="/logo.png" alt="BitBase logo" width={48} height={48} />
+            <Link href="/"> <img src="/logo.png" alt="BitBase logo" width={48} height={48} /></Link>
             <div>
               <div className="brand-title">BitBase</div>
               <div className="brand-sub">Stay Secure. Stay Informed.</div>
