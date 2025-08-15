@@ -36,7 +36,14 @@
         </p>
         <p><strong>End-to-end flow (high level).</strong></p>
         <pre>
-\n[Initial Access]\n     |\n     v\n[Privilege Establishment]\n  - enable default admin / create local admin\n     |\n     v\n[Recon]\n  - batch enumeration (accounts, hardware, disks)\n     |\n     v\n[Persistence]\n  - Service: WinMainSvc (keylogger)\n  - Service: MSRuntime (loader)\n     |\n     v\n[EDR Evasion]\n  - Custom RealBlindingEDR disables kernel callbacks\n  - Optional uninstall via XBCUninstaller.exe (via gpscript.exe)\n     |\n     v\n[Lateral Movement]\n  - SMB shares\n     |\n     v\n[Exfiltration]\n  - Google Drive via WinINET\n     |\n     v\n[Impact]\n  - Delete VSS\n  - Encrypt\n
+[Initial Access]
+[Privilege Establishment] - enable default admin / create local admin
+[Recon] - batch enumeration (accounts, hardware, disks)
+[Persistence] - Service: WinMainSvc (keylogger)  - Service: MSRuntime (loader)
+[EDR Evasion] - Custom RealBlindingEDR disables kernel callbacks  - Optional uninstall via XBCUninstaller.exe (via gpscript.exe)
+[Lateral Movement]  - SMB shares
+[Exfiltration]  - Google Drive via WinINET
+[Impact]  - Delete VSS  - Encrypt\n
         </pre>
         <h2>Impact & Implications</h2>
         <p>
